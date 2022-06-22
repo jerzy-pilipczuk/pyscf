@@ -477,11 +477,11 @@ class SymAdaptedUHF(uhf.UHF):
         idxb = numpy.arange(eb.size)
         idxb = numpy.hstack((idxb[self.mo_occ[1]> 0][ob_sort],
                              idxb[self.mo_occ[1]==0][vb_sort]))
-        self.mo_energy = (ea[idxa], eb[idxb])
+        self.mo_energy = numpy.array([ea[idxa], eb[idxb]])
         orbsyma, orbsymb = self.get_orbsym(self.mo_coeff, self.get_ovlp())
-        self.mo_coeff = (lib.tag_array(self.mo_coeff[0][:,idxa], orbsym=orbsyma[idxa]),
-                         lib.tag_array(self.mo_coeff[1][:,idxb], orbsym=orbsymb[idxb]))
-        self.mo_occ = (self.mo_occ[0][idxa], self.mo_occ[1][idxb])
+        self.mo_coeff = numpy.array([lib.tag_array(self.mo_coeff[0][:,idxa], orbsym=orbsyma[idxa]),
+                         lib.tag_array(self.mo_coeff[1][:,idxb], orbsym=orbsymb[idxb])])
+        self.mo_occ = numpy.array([self.mo_occ[0][idxa], self.mo_occ[1][idxb]])
         if self.chkfile:
             chkfile.dump_scf(self.mol, self.chkfile, self.e_tot, self.mo_energy,
                              self.mo_coeff, self.mo_occ, overwrite_mol=False)
